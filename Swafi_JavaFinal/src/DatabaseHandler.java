@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler {
-    private static final String DB_URL = "jdbc:sqlite:courses.db";
+    private static final String DB_URL = "jdbc:sqlite:courses.db"; //tells the driver to use sqlite
 
     public DatabaseHandler() {
-        createTables();
+        createTables(); //create table
     }
 
     private void createTables() {
@@ -22,33 +22,33 @@ public class DatabaseHandler {
         }
     }
 
-    public void addCourse(String name, String instructor) {
-        String sql = "INSERT INTO courses(name, instructor) VALUES(?,?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, instructor);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error adding course: " + e.getMessage());
-        }
+    public void addCourse(Course course) {
+    String sql = "INSERT INTO courses(name, instructor) VALUES(?,?)";
+    try (Connection conn = DriverManager.getConnection(DB_URL);
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, course.getName());      
+        pstmt.setString(2, course.getInstructor()); 
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+        System.err.println("Error adding course: " + e.getMessage());
     }
+}
 
-    public boolean addGradedItem(String courseName, String type, String name, String dueDate) {
-        String sql = "INSERT INTO graded_items(course_name, type, name, due_date) VALUES(?,?,?,?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, courseName);
-            pstmt.setString(2, type);
-            pstmt.setString(3, name);
-            pstmt.setString(4, dueDate);
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error adding graded item: " + e.getMessage());
-            return false;
-        }
+    public boolean addGradedItem(String courseName, GradedItem item) {
+    String sql = "INSERT INTO graded_items(course_name, type, name, due_date) VALUES(?,?,?,?)";
+    try (Connection conn = DriverManager.getConnection(DB_URL);
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, courseName);
+        pstmt.setString(2, item.getType());   // from the object
+        pstmt.setString(3, item.getName());   // from the object
+        pstmt.setString(4, item.getDueDate()); // from the object
+        pstmt.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        System.err.println("Error adding graded item: " + e.getMessage());
+        return false;
     }
+}
 
     public List<String> getAllCourses() {
         List<String> list = new ArrayList<>();
