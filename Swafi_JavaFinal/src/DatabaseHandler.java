@@ -39,9 +39,9 @@ public class DatabaseHandler {
     try (Connection conn = DriverManager.getConnection(DB_URL);
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
         pstmt.setString(1, courseName);
-        pstmt.setString(2, item.getType());   // from the object
-        pstmt.setString(3, item.getName());   // from the object
-        pstmt.setString(4, item.getDueDate()); // from the object
+        pstmt.setString(2, item.getType());   
+        pstmt.setString(3, item.getName());   
+        pstmt.setString(4, item.getDueDate()); 
         pstmt.executeUpdate();
         return true;
     } catch (SQLException e) {
