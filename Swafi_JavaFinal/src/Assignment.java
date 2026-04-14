@@ -1,5 +1,9 @@
+//child of GradedItem
+
 public class Assignment extends GradedItem {
+    
     public Assignment(String name, String dueDate) {
+       //call the parent constructor 
         super(name, dueDate);
     }
 
@@ -8,3 +12,4 @@ public class Assignment extends GradedItem {
         return "Assignment";
     }
 }
+
